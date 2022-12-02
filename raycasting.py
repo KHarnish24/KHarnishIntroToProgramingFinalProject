@@ -8,7 +8,7 @@ class RayCasting:
         self.game=game
 
     def ray_cast(self):
-        ox, oy =self.game.pos
+        ox, oy =self.game.player.pos
         x_map, y_map = self.game.player.map_pos
 
         # small desimal is to avoid dividing by 0
@@ -54,6 +54,15 @@ class RayCasting:
 
 
             # depth
+            if depth_vert < depth_hor:
+                depth = depth_vert
+            else:
+                depth = depth_hor
+
+
+            # draw for debug
+            pg.draw.line(self.game.screen, 'yellow', (100*ox,100*oy),
+            (100 * ox +100*depth*cos_a, 100 * oy * depth * sin_a), 2)
 
 
 
