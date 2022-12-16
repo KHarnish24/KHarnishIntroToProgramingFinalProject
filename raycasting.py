@@ -8,7 +8,7 @@ class RayCasting:
         self.game=game
 
     def ray_cast(self):
-        ox, oy =self.game.player.pos
+        ox, oy = self.game.player.pos
         x_map, y_map = self.game.player.map_pos
 
         # small desimal is to avoid dividing by 0
@@ -18,21 +18,22 @@ class RayCasting:
             cos_a = math.cos(ray_angle)
 
             # horisontal check
-            y_hor , dy = (y_map + 1, 1) if sin_a > 0 else (y_map - 1e-6, -1)
+            y_hor, dy = (y_map + 1, 1) if sin_a > 0 else (y_map - 1e-6, -1)
 
-            depth_hor = (y_hor -oy) / sin_a 
-            x_hor =ox + depth_hor * cos_a
+            depth_hor = (y_hor - oy) / sin_a
+            x_hor = ox + depth_hor * cos_a
 
-            delta_depth = dy / sin_a 
+            delta_depth = dy / sin_a
             dx = delta_depth * cos_a
 
             for i in range(MAX_DEPTH):
                 tile_hor = int(x_hor), int(y_hor)
                 if tile_hor in self.game.map.world_map:
+
                     break
-            x_hor +=dx
-            y_hor +=dy
-            depth_hor += delta_depth
+                x_hor += dx
+                y_hor += dy
+                depth_hor += delta_depth
 
 
 
@@ -63,7 +64,7 @@ class RayCasting:
 
             # draw for debug
             pg.draw.line(self.game.screen, 'yellow', (100*ox,100*oy),
-            (100 * ox +100*depth*cos_a, 100 * oy * depth * sin_a), 2)
+            (100 * ox +100*depth*cos_a, 100 * oy + 100 * depth * sin_a), 2)
 
 
 
