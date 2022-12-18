@@ -9,6 +9,7 @@ from object_renderer import *
 class Game:
     def __init__(self):
         pg.init()
+        pg.mouse.set_visible(False)
         self.screen = pg.display.set_mode(RES)
         self.clock = pg.time.Clock()
         self.delta_time = 1
@@ -30,6 +31,7 @@ class Game:
     def draw(self):
         self.screen.fill('black')
         self.object_renderer.draw()
+        
         # pg.draw.rect()
         # self.map.draw()
         # self.player.draw()

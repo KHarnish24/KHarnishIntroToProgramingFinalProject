@@ -16,12 +16,21 @@ class RayCasting:
         self.objects_to_render = []
         for ray, values in enumerate(self.ray_casting_result):
             depth, proj_height, texture, offset = values
-
-            wall_column = self.textures[texture].subsurface(
-                offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE
-            )
-            wall_column = pg.transform.scale(wall_column, (SCALE, proj_height))
-            wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 2)
+            if proj_height < HEIGHT:
+                wall_column = self.textures[texture].subsurface(
+                    offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE
+                )
+                wall_column = pg.transform.scale(wall_column, (SCALE, proj_height))
+                wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 2)
+        
+            else: 
+                texture_height = TEXTURE_SIZE * HEIGHT / proj_height
+                wall_column = self.textures[texture].subsurface(
+                    offset * (TEXTURE_SIZE - SCALE), HALF_TEXTURE_SIZE - texture_height //2,
+                    SCALE, texture_height
+                )    
+                wall_column = pg.transform.scale(wall_column,(SCALE, HEIGHT))
+                wall_pos = (ray * SCALE, 0)    
 
             self.objects_to_render.append((depth, wall_column, wall_pos))
 
@@ -30,6 +39,8 @@ class RayCasting:
         self.ray_casting_result = []
         ox, oy = self.game.player.pos
         x_map, y_map = self.game.player.map_pos
+
+        texture_vert, texture_hor = 1, 1
 
         # small desimal is to avoid dividing by 0
         ray_angle = self.game.player.angle - HALF_FOV + 0.0001
@@ -84,17 +95,15 @@ class RayCasting:
             else:
                 depth, texture = depth_hor, texture_hor
                 x_hor %= 1
-                offset = (1-x_hor) if sin_a > 0 else x_hor
+                offset = (1 - x_hor) if sin_a > 0 else x_hor
 
-
-
-        # remove fishbowl effect
+            # remove fishbowl effect
             depth *= math.cos(self.game.player.angle - ray_angle)
 
             # projection
             proj_height = SCREEN_DIST / (depth + 0.0001)
 
-            # draw walls
+            # draw walls - before texturing
             # color = [255 / (1 + depth ** 5 * 0.00002)] * 3
             # pg.draw.rect(self.game.screen, color,
             # (ray * SCALE, HALF_HEIGHT - proj_height // 2, SCALE, proj_height))
@@ -112,4 +121,4 @@ class RayCasting:
 
     def update(self):
         self.ray_cast()
-        self.get_objects_to_renderer
+        self.get_objects_to_renderer()
