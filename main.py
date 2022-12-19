@@ -7,6 +7,7 @@ from raycasting import *
 from object_renderer import *
 from sprite_object import *
 from artifact_handler import *
+from objective_bar import *
 from random import randint
 
 
@@ -43,6 +44,7 @@ class Game:
         self.static_sprite_3 = SpriteObject(self, place_3, 3)
         self.static_sprite_4 = SpriteObject(self, place_4, 4)
         self.artifact_handler = ArtifactHandler(self,[self.static_sprite_1, self.static_sprite_2, self.static_sprite_3, self.static_sprite_4])
+        self.objective_bar = ObjectiveBar(self)
         # self.animated_sprite = AnimatedSprite(self, (8.5, 2.5))
 
     def update(self):
@@ -53,6 +55,7 @@ class Game:
         self.static_sprite_3.update()
         self.static_sprite_4.update()
         self.artifact_handler.update()
+        self.objective_bar.update()
         
         # self.animated_sprite.update()
         pg.display.flip()
@@ -62,6 +65,7 @@ class Game:
     def draw(self):
         self.screen.fill('black')
         self.object_renderer.draw()
+        self.objective_bar.draw()
         
         # pg.draw.rect()
         # self.map.draw()
