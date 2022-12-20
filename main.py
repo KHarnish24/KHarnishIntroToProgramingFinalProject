@@ -66,6 +66,7 @@ class Game:
         self.screen.fill('black')
         self.object_renderer.draw()
         self.objective_bar.draw()
+        self.artifact_handler.draw()
         
         # pg.draw.rect()
         # self.map.draw()
