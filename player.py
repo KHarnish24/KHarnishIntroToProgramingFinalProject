@@ -7,6 +7,7 @@ class Player:
         self.game = game
         self.x, self.y = PLAYER_POS
         self.angle = PLAYER_ANGLE
+        
     
     def movment(self):
         sin_a = math.sin(self.angle)
@@ -20,15 +21,19 @@ class Player:
         if keys[pg.K_w]:
             dx += speed_cos
             dy += speed_sin
+            
         if keys[pg.K_s]:
             dx += -speed_cos
             dy += -speed_sin
+           
         if keys[pg.K_a]:
             dx += speed_sin
             dy += -speed_cos
+            
         if keys[pg.K_d]:
             dx += -speed_sin
             dy += speed_cos
+            
 
 
     

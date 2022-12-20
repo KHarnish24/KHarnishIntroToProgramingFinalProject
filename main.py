@@ -14,13 +14,17 @@ from random import randint
 class Game:
     def __init__(self):
         pg.init()
+        pg.mixer.init()
         pg.mouse.set_visible(False)
         self.screen = pg.display.set_mode(RES)
         self.clock = pg.time.Clock()
         self.delta_time = 1
+        music = pg.mixer.music.load('resources/sounds/song.ogg')
         self.new_game()
+        
 
     def new_game(self):
+        pg.mixer.music.play(-1)
         self.map = Map(self)
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
